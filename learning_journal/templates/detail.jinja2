@@ -1,0 +1,14 @@
+{% extends "layout.jinja2" %}
+{% block title %}Sera Shioda Smith - Learning Journal - Entry {{ entry.id }}{% endblock %}
+
+{% block body %}
+
+    <h2>{{ entry.title }}</h2>
+    <h2>{{ entry.title1 }}</h2>
+    <h3>Created: {{ entry.create_date }}</h3>
+        <p>Entry: {{ entry.body }}</p>
+    <div class="about-btn">
+        <a href="{{ request.route_url('edit', id=entry.id) }}">Edit Entry</a>
+    <div>
+
+{% endblock %}
