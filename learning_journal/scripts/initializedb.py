@@ -1,11 +1,14 @@
+"""."""
+
 import os
 import sys
 import transaction
+from datetime import datetime
 
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from pyramid.scripts.common import parse_vars
 
@@ -14,11 +17,13 @@ from ..models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    )
-from ..models import MyModel
+)
+
+from ..models import Entries
 
 
 def usage(argv):
+    """."""
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
@@ -26,6 +31,7 @@ def usage(argv):
 
 
 def main(argv=sys.argv):
+    """."""
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
@@ -38,8 +44,19 @@ def main(argv=sys.argv):
 
     session_factory = get_session_factory(engine)
 
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = MyModel(name='one', value=1)
-        dbsession.add(model)
+ENTRIES = [
+    {'title': 'Week 2', 'title1': 'Day 5', 'create_date': datetime.strptime('December 18, 2016', '%B %d, %Y'), 'body': 'Cherries are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 1', 'create_date': datetime.strptime('December 19, 2016', '%B %d, %Y'), 'body': 'Apples are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 2', 'create_date': datetime.strptime('December 20, 2016', '%B %d, %Y'), 'body': 'Oranges are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 3', 'create_date': datetime.strptime('December 21, 2016', '%B %d, %Y'), 'body': 'Kiwis are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 4', 'create_date': datetime.strptime('December 22, 2016', '%B %d, %Y'), 'body': 'Mangos are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 5', 'create_date': datetime.strptime('December 23, 2016', '%B %d, %Y'), 'body': 'Pomogranets are rotten'}
+]
+
+with transaction.manager:
+    dbsession = get_tm_session(session_factory, transaction.manager)
+
+    for entry in ENTRIES:
+        row = Entries(title=entry['title'], creation_date=entry['create_date'], body=entry['body'])
+        dbsession.add(row)
