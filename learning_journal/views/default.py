@@ -1,10 +1,13 @@
+"""."""
+
+
 from pyramid.response import Response
 from pyramid.view import view_config
 from datetime import date
-
+from pyramid.httpexceptions import HTTPFound
 from sqlalchemy.exc import DBAPIError
 
-from ..models import MyModel
+from ..models import Entries
 
 
 @view_config(route_name='list', renderer='../templates/list.jinja2')
@@ -29,11 +32,11 @@ def detail_view(request):
 @view_config(route_name='create', renderer='../templates/create.jinja2')
 def create_view(request):
     """."""
-    if request.method == "POST":
+    if request.method == 'POST':
         entry = request.POST
-        row = Entries(title=entry["title"], create_date=date.today(), body=entry["body"])
+        row = Entries(title=entry['title'], create_date=date.today(), body=entry['body'])
         request.dbsession.add(row)
-        return HTTPFound(request.route_url("list"))
+        return HTTPFound(request.route_url('list'))
     return {}
 
 

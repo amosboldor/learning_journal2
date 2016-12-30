@@ -44,6 +44,13 @@ def main(argv=sys.argv):
 
     session_factory = get_session_factory(engine)
 
+    with transaction.manager:
+        dbsession = get_tm_session(session_factory, transaction.manager)
+
+        for entry in ENTRIES:
+            row = Entries(title=entry['title'], title1=entry['title1'], create_date=entry['create_date'], body=entry['body'])
+            dbsession.add(row)
+
 
 ENTRIES = [
     {'title': 'Week 2', 'title1': 'Day 5', 'create_date': datetime.strptime('December 18, 2016', '%B %d, %Y'), 'body': 'Cherries are rotten'},
@@ -53,10 +60,3 @@ ENTRIES = [
     {'title': 'Week 3', 'title1': 'Day 4', 'create_date': datetime.strptime('December 22, 2016', '%B %d, %Y'), 'body': 'Mangos are rotten'},
     {'title': 'Week 3', 'title1': 'Day 5', 'create_date': datetime.strptime('December 23, 2016', '%B %d, %Y'), 'body': 'Pomogranets are rotten'}
 ]
-
-with transaction.manager:
-    dbsession = get_tm_session(session_factory, transaction.manager)
-
-    for entry in ENTRIES:
-        row = Entries(title=entry['title'], creation_date=entry['create_date'], body=entry['body'])
-        dbsession.add(row)

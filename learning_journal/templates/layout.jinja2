@@ -22,9 +22,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <meta name="author" content="Sera Shioda Smith">
                     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
                     <script src="js/jquery.min.js"></script>
-                        {# <link rel="stylesheet" href={{ request.static_path('learning_journal_basic:static/css/base.css')}}> #}
-                        <link rel="stylesheet" href="{{ request.static_path('learning_journal_basic:static/css/bootstrap.css') }}">
-                        <link rel="stylesheet" href="{{ request.static_path('learning_journal_basic:static/css/style.css') }}">
+                        <link rel="stylesheet" href="{{ request.static_path('learning_journal:static/css/chocolat.css')}}">
+                        <link rel="stylesheet" href="{{ request.static_path('learning_journal:static/css/bootstrap.css') }}">
+                        <link rel="stylesheet" href="{{ request.static_path('learning_journal:static/css/style.css') }}">
             </head>
 
                 <div class="navigation">
@@ -33,7 +33,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <li><a href="/"  class="active">Home</a></li>
                             <li><a href="{{ request.route_url('create') }}">New Entry</a></li>
                             <li><a href="{{ request.route_url('list') }}"> Entries </a></li>
-                            <!-- <li><a href="templates/about.html">About</a></li> -->
                         </ul>
                 </div>
             </div>
@@ -42,11 +41,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
                     <input type="submit" value="">
                 </div>
-                    <!-- <ul>
-                        <li><a href="#"><span class="fb"> </span></a></li>
-                        <li><a href="#"><span class="twit"> </span></a></li>
-                        <li><a href="#"><span class="pin"> </span></a></li>
-                    </ul> -->
                 <div class="clearfix"></div>
             </div>
         </div>
