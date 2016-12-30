@@ -1,5 +1,5 @@
 {% extends "layout.jinja2" %}
-<!--A Design by W3layouts
+{# <!--A Design by W3layouts
 Author: W3layout
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -69,24 +69,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="banner-text">
                   {#   <h2>Week 1</h2>
                     <h1>Day 1</h1> #}
-                    <div class="banner-btn">
+                  {#   <div class="banner-btn">
                         <a href="/journal/{id:\d+}">Read More</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
     <!--banner-end-->
 
   <!-- Page Content -->
-  <div class="container">
+  {# <div class="container">
 
       <div class="row">
 
           <!-- Blog Post Content Column -->
           <div class="col-lg-8">
 
-            <hr>
+            <hr> #} 
 
             <!-- New Article Form -->
             {% block body %}
@@ -104,12 +104,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <h4>NEW ENTRY</h4>
                                             <form role="form">
                                                 <div class="form-group">
-                                                    <p>TITLE</p>
-                                                    <textarea class="form-control" rows="1"></textarea>
+                                                    <p>TITLE - Week:</p>
+                                                    <textarea class="form-control" rows="1" name="title"></textarea>
+                                                    <p>TITLE- Day:</p>
+                                                    <textarea class="form-control" rows="1" name="title1"></textarea>
                                                     <p>BODY</p>
-                                                    <textarea class="form-control" rows="10"></textarea>
-                                                </div>
+                                                    <textarea class="form-control" rows="10" name="body"></textarea>
                                                 <button type="submit" class="btn btn-primary">SUBMIT</button>
+                                                </div>
                                             </form>
                                         </div>
                                         <hr>

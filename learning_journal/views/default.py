@@ -34,7 +34,7 @@ def create_view(request):
     """."""
     if request.method == 'POST':
         entry = request.POST
-        row = Entries(title=entry['title'], create_date=date.today(), body=entry['body'])
+        row = Entries(title=entry['title'], title1=entry['title1'], create_date=date.today(), body=entry['body'])
         request.dbsession.add(row)
         return HTTPFound(request.route_url('list'))
     return {}
@@ -48,6 +48,7 @@ def edit_view(request):
         entry = request.POST
         query = request.dbsession.query(Entries).get(entry_id)
         query.title = entry['title']
+        query.title1 = entry['title1']
         query.body = entry['body']
         request.dbsession.flush()
         return HTTPFound(request.route_url('list'))
