@@ -1,27 +1,55 @@
 from pyramid.response import Response
 from pyramid.view import view_config
+from datetime import date
 
 from sqlalchemy.exc import DBAPIError
 
 from ..models import MyModel
 
 
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
+@view_config(route_name='list', renderer='../templates/list.jinja2')
 def list_view(request):
+    """."""
+    try:
+        query = request.dbsession.query(Entries).all()
+        # one = query.filter(MyModel.name == 'one').first()
+    except DBAPIError:
+        return Response(db_err_msg, content_type='text/plain', status=500)
+    return {'entries': query}
 
 
-    # try:
-    #     query = request.dbsession.query(MyModel)
-    #     one = query.filter(MyModel.name == 'one').first()
-    # except DBAPIError:
-    #     return Response(db_err_msg, content_type='text/plain', status=500)
-    # return {'one': one, 'project': 'learning_journal'}
+@view_config(route_name='detail', renderer='../templates/detail.jinja2')
+def detail_view(request):
+    """."""
+    entry_id = int(request.matchdict['id'])
+    entry = request.dbsession.query(Entries).get(entry_id)
+    return {'entry': entry}
 
-@view_config(route_name='create', renderer='../templates/form.jinja2')
+
+@view_config(route_name='create', renderer='../templates/create.jinja2')
 def create_view(request):
+    """."""
     if request.method == "POST":
-        #
-        return {}
+        entry = request.POST
+        row = Entries(title=entry["title"], create_date=date.today(), body=entry["body"])
+        request.dbsession.add(row)
+        return HTTPFound(request.route_url("list"))
+    return {}
+
+
+@view_config(route_name='edit', renderer='../templates/edit.jinja2')
+def edit_view(request):
+    """View for the edit page."""
+    entry_id = int(request.matchdict['id'])
+    if request.method == 'POST':
+        entry = request.POST
+        query = request.dbsession.query(Entries).get(entry_id)
+        query.title = entry['title']
+        query.body = entry['body']
+        request.dbsession.flush()
+        return HTTPFound(request.route_url('list'))
+    entry = request.dbsession.query(Entries).get(entry_id)
+    return {'entry': entry}
 
 
 db_err_msg = """\
