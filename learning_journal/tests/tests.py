@@ -2,6 +2,7 @@
 
 
 import unittest
+import pytest
 import transaction
 
 from pyramid import testing
@@ -46,6 +47,7 @@ def dummy_request(db_session):
     """Instantiate fake HTTP requst."""
     return testing.DummyRequest(dbsession=db_session)
 
+
 @pytest.fixture
 def add_models(dummy_request):
     """Add model instances to db."""
@@ -65,6 +67,14 @@ ENTRIES = [
 
 
 #`````````````` unit test```````````````
+
+def test_new_entry(db_session):
+    """Test if new_entry is adding an entry to db."""
+    for entry in ENTRIES:
+        row = Entries(title=entry["title"], title1=entry["title1"], create_date=entry["create_date"], body=entry["body"])
+        db_session.add(row)
+    query = db_session.query(Entries).all()
+    assert len(query) == len(ENTRIES)
 
 
 class BaseTest(unittest.TestCase):
