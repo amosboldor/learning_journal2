@@ -3,6 +3,11 @@ import transaction
 
 from pyramid import testing
 
+from learning_journal.models import Entries, get_tm_session
+from learning_journal.models.meta import Base
+
+from datetime import datetime
+
 
 def dummy_request(dbsession):
     return testing.DummyRequest(dbsession=dbsession)
