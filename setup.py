@@ -20,14 +20,19 @@ requires = [
     'ipython',
     'pyramid_ipython',
     'psycopg2',
-    ]
+    'genshi',
+    'lxml',
+    'datrie',
+    'chardet',
+    #'ntlm'
+]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',  # includes virtualenv
     'pytest-cov',
     'tox'
-    ]
+]
 
 setup(name='learning_journal',
       version='0.0',

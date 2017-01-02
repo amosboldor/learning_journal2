@@ -1,3 +1,6 @@
+"""Test for the Learning Journal."""
+
+
 import unittest
 import transaction
 
@@ -9,8 +12,59 @@ from learning_journal.models.meta import Base
 from datetime import datetime
 
 
-def dummy_request(dbsession):
-    return testing.DummyRequest(dbsession=dbsession)
+@pytest.fixture(scope="session")
+def configuration(request):
+    """Set up a Configurator instance."""
+    settings = {'sqlalchemy.url': 'postgres://Sera@localhost:5432/test_learning_journal'}
+    config = testing.setUp(settings=settings)
+    config.include('learning_journal.models')
+
+    def teardown():
+        testing.tearDown()
+
+    request.addfinalizer(teardown)
+    return config
+
+
+@pytest.fixture()
+def db_session(configuration, request):
+    """Create session for interacting with test db."""
+    SessionFactory = configuration.registory['dbsession_factory']
+    session = SessionFactory()
+    engine = session.bind
+    Base.metadata.create_all(engine)
+
+    def teardown():
+        session.transaction.rollback()
+
+    request.addfinalizer(teardown)
+    return session
+
+
+@pytest.fixture
+def dummy_request(db_session):
+    """Instantiate fake HTTP requst."""
+    return testing.DummyRequest(dbsession=db_session)
+
+@pytest.fixture
+def add_models(dummy_request):
+    """Add model instances to db."""
+    for entry in ENTRIES:
+        row = Entries(title=entry['title'], title1=entry['title1'], create_date=entry['create_date'], body=entry['body'])
+        dummy_request.dbsession.add(row)
+
+
+ENTRIES = [
+    {'title': 'Week 2', 'title1': 'Day 5', 'create_date': datetime.strptime('December 18, 2016', '%B %d, %Y'), 'body': 'Cherries are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 1', 'create_date': datetime.strptime('December 19, 2016', '%B %d, %Y'), 'body': 'Apples are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 2', 'create_date': datetime.strptime('December 20, 2016', '%B %d, %Y'), 'body': 'Oranges are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 3', 'create_date': datetime.strptime('December 21, 2016', '%B %d, %Y'), 'body': 'Kiwis are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 4', 'create_date': datetime.strptime('December 22, 2016', '%B %d, %Y'), 'body': 'Mangos are rotten'},
+    {'title': 'Week 3', 'title1': 'Day 5', 'create_date': datetime.strptime('December 23, 2016', '%B %d, %Y'), 'body': 'Pomogranets are rotten'}
+]
+
+
+#`````````````` unit test```````````````
 
 
 class BaseTest(unittest.TestCase):
@@ -50,9 +104,9 @@ class TestMyViewSuccessCondition(BaseTest):
         super(TestMyViewSuccessCondition, self).setUp()
         self.init_database()
 
-        from .models import MyModel
+        from .models import Entries
 
-        model = MyModel(name='one', value=55)
+        model = Entries(name='one', value=55)
         self.session.add(model)
 
     def test_passing_view(self):
