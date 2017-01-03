@@ -56,6 +56,26 @@ def edit_view(request):
     return {'entry': entry}
 
 
+@view_config(route_name="login", renderer="../templates/login.jinja2")
+def login_view(request):
+    """."""
+    if request.POST:
+        username = request.POST["username"]
+        password = request.POST["password"]
+        if check_credentials(username, password):
+            auth_head = remember(request, username)
+            return HTTPFound(request.route_url("list"),
+                             headers=auth_head)
+    return {}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    """."""
+    headers = forget(request)
+    return HTTPFound(request.route_url('home'), headers=headers)
+
+
 db_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
