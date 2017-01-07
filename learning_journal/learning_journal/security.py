@@ -3,7 +3,8 @@
 import os
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Allow, Authenticated
+from pyramid.security import Allow, Everyone
+# Authenticated
 from passlib.apps import custom_app_context as pwd_context
 from pyramid.session import check_csrf_token
 
