@@ -1,4 +1,4 @@
-"""."""
+"""Database initialization script."""
 
 import os
 import sys

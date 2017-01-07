@@ -1,4 +1,4 @@
-"""Model Implementation."""
+"""Model Implementation for Learning Journal."""
 
 
 from sqlalchemy import (

@@ -6,6 +6,7 @@
     <h2>{{ entry.title }}</h2>
     <h2>{{ entry.title1 }}</h2>
     <h3>Created: {{ entry.create_date }}</h3>
+    <h3>{{ entry.date.strftime('%b %d, %Y') }}</h3>
         <p>Entry: {{ entry.body }}</p>
     <div class="about-btn">
         <a href="{{ request.route_url('edit', id=entry.id) }}">Edit Entry</a>
