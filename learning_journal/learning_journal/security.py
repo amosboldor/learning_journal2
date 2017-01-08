@@ -3,8 +3,7 @@
 import os
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Allow, Everyone
-# Authenticated
+from pyramid.security import Allow, Authenticated
 from passlib.apps import custom_app_context as pwd_context
 from pyramid.session import check_csrf_token
 
@@ -17,7 +16,7 @@ class NewRoot(object):
         self.request = request
 
     __acl__ = [
-        (Allow, Everyone, 'view'),
+        (Allow, Authenticated, 'view'),
         # (Allow, Authenticated, 'secret'),
     ]
 
