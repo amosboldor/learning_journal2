@@ -62,6 +62,7 @@ def create_view(request):
 def edit_view(request):
     """View for the edit page."""
     entry_id = int(request.matchdict['id'])
+    entry = request.dbsession.query(Entries).get(entry_id)
     if request.POST:
         entry.id = request.POST['id']
         entry.title = request.POST['title']
