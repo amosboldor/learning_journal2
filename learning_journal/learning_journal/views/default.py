@@ -1,11 +1,11 @@
 """."""
 
 
-from pyramid.response import Response
+# from pyramid.response import Response
 from pyramid.view import view_config
 from learning_journal.models import Entries
 from pyramid.httpexceptions import HTTPFound
-from datetime import date
+import datetime
 from learning_journal.security import check_credentials
 from pyramid.security import remember, forget
 # from sqlalchemy.exc import DBAPIError
@@ -13,18 +13,21 @@ from pyramid.security import remember, forget
 
 @view_config(route_name='list', renderer='../templates/list.jinja2')
 def list_view(request):
-    """."""
-    try:
-        query = request.dbsession.query(Entries).all()
-        # one = query.filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'entries': query}
+    """A listing of expenses for the home page."""
+    # # import pdb; pdb.set_trace()
+    # if request.POST and request.POST['category']:
+    #     return HTTPFound(request.route_url('category', cat=request.POST['category']))
+    query = request.dbsession.query(Entries)
+    entries = query.order_by(Entries.create_date.desc()).all()
+    return {
+        'entries:': entries
+        # 'categories': categories
+    }
 
 
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
 def detail_view(request):
-    """."""
+    """Detail page for entry in blog."""
     entry_id = int(request.matchdict['id'])
     entry = request.dbsession.query(Entries).get(entry_id)
     return {'entry': entry}
@@ -37,10 +40,16 @@ def detail_view(request):
 )
 def create_view(request):
     """View for the create page."""
-    if request.method == 'POST':
-        entry = request.POST
-        row = Entries(title=entry['title'], title1=entry['title1'], create_date=date.today(), body=entry['body'])
-        request.dbsession.add(row)
+    if request.POST:
+        entry = Entries(
+            # entry=request.POST
+            id=request.POST['id'],
+            title=request.POST['title'],
+            title1=request.POST['title1'],
+            body=request.POST['body'],
+            create_date=datetime.datetime.now()
+        )
+        request.dbsession.add(entry)
         return HTTPFound(request.route_url('list'))
     return {}
 
@@ -53,16 +62,23 @@ def create_view(request):
 def edit_view(request):
     """View for the edit page."""
     entry_id = int(request.matchdict['id'])
-    if request.method == 'POST':
-        entry = request.POST
-        query = request.dbsession.query(Entries).get(entry_id)
-        query.title = entry['title']
-        query.title1 = entry['title1']
-        query.body = entry['body']
+    if request.POST:
+        entry.id = request.POST['id']
+        entry.title = request.POST['title']
+        entry.title1 = request.POST['title1']
+        entry.body = request.POST['body']
+        # entry.create_date = request.POST['create_date']
         request.dbsession.flush()
         return HTTPFound(request.route_url('list'))
-    entry = request.dbsession.query(Entries).get(entry_id)
-    return {'entry': entry}
+
+    form_fill = {
+        'id': entry.id,
+        'title': entry.title,
+        'title1': entry.title1,
+        'body': entry.body
+        # 'create_date': entry.create_date
+    }
+    return {'data': form_fill}
 
 
 @view_config(route_name="login", renderer="../templates/login.jinja2")
