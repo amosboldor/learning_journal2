@@ -10,10 +10,10 @@ from pyramid.session import check_csrf_token
 
 
 class NewRoot(object):
-    """."""
+    """Declare New Root object. What pyramid uses to build requests"""
 
     def __init__(self, request):
-        """."""
+        """Take in a http request and builds a request object out of it."""
         self.request = request
 
     __acl__ = [
@@ -35,9 +35,9 @@ def check_credentials(username, password):
     return False
 
 
-def secure_view(request):
-    """."""
-    check_csrf_token(request)
+# def secure_view(request):
+#     """."""
+#     check_csrf_token(request)
 
 
 def includeme(config):
@@ -47,8 +47,8 @@ def includeme(config):
         secret=auth_secret,
         hashalg='sha512'
     )
-    authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
+    authz_policy = ACLAuthorizationPolicy()
     config.set_authorization_policy(authz_policy)
     config.set_default_permission('view')
     config.set_root_factory(NewRoot)

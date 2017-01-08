@@ -3,11 +3,12 @@
 
 from pyramid.response import Response
 from pyramid.view import view_config
-from datetime import date
+from learning_journal.models import Entries
 from pyramid.httpexceptions import HTTPFound
-from sqlalchemy.exc import DBAPIError
-
-from ..models import Entries
+from datetime import date
+from learning_journal.security import check_credentials
+from pyramid.security import remember, forget
+# from sqlalchemy.exc import DBAPIError
 
 
 @view_config(route_name='list', renderer='../templates/list.jinja2')
@@ -31,7 +32,7 @@ def detail_view(request):
 
 @view_config(route_name='create', renderer='../templates/create.jinja2')
 def create_view(request):
-    """."""
+    """View for the create page."""
     if request.method == 'POST':
         entry = request.POST
         row = Entries(title=entry['title'], title1=entry['title1'], create_date=date.today(), body=entry['body'])
@@ -58,29 +59,30 @@ def edit_view(request):
 
 @view_config(route_name="login", renderer="../templates/login.jinja2")
 def login_view(request):
-    """."""
+    """Login view."""
     if request.POST:
         username = request.POST["username"]
         password = request.POST["password"]
         if check_credentials(username, password):
             auth_head = remember(request, username)
             return HTTPFound(request.route_url("list"),
-                             headers=auth_head)
+                             headers=auth_head
+                             )
     return {}
 
 
 @view_config(route_name='logout')
 def logout(request):
-    """."""
-    headers = forget(request)
-    return HTTPFound(request.route_url('home'), headers=headers)
+    """Logout view."""
+    auth_head = forget(request)
+    return HTTPFound(request.route_url('list'), headers=auth_head)
 
 
 db_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
 
-1.  You may need to run the "initialize_learning_journal_db" script
+1.  You may need to run the "initialize_db" script
     to initialize your database tables.  Check your virtual
     environment's "bin" directory for this script and try to run it.
 
