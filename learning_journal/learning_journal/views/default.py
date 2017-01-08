@@ -30,7 +30,11 @@ def detail_view(request):
     return {'entry': entry}
 
 
-@view_config(route_name='create', renderer='../templates/create.jinja2')
+@view_config(
+    route_name='create',
+    renderer='../templates/create.jinja2',
+    permission='add'
+)
 def create_view(request):
     """View for the create page."""
     if request.method == 'POST':
@@ -41,7 +45,11 @@ def create_view(request):
     return {}
 
 
-@view_config(route_name='edit', renderer='../templates/edit.jinja2')
+@view_config(
+    route_name='edit',
+    renderer='../templates/edit.jinja2',
+    permission='add'
+)
 def edit_view(request):
     """View for the edit page."""
     entry_id = int(request.matchdict['id'])
