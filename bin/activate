@@ -77,7 +77,7 @@ fi
 
 
 export AUTH_USERNAME="serashioda"
-export AUTH_PASSWORD="secretninja"
+export AUTH_PASSWORD="$6$rounds=656000$QGCIdFlC/vFoHz5P$1InbhuhLi.7CLNWUk7RcCEScJ1nwzagKK27bKbVk./RL3R5nHtr.ewcsJfqGXyObu2Ou7B4uRlTJCsKcJItcO"
 export AUTH_SECRET="snakesforall"
 
 

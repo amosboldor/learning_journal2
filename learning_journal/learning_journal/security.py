@@ -16,7 +16,7 @@ class NewRoot(object):
         self.request = request
 
     __acl__ = [
-        (Allow, Authenticated, 'view'),
+        (Allow, Authenticated, 'add'),
         # (Allow, Authenticated, 'secret'),
     ]
 

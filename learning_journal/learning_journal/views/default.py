@@ -73,9 +73,10 @@ def login_view(request):
         password = request.POST["password"]
         if check_credentials(username, password):
             auth_head = remember(request, username)
-            return HTTPFound(request.route_url("list"),
-                             headers=auth_head
-                             )
+            return HTTPFound(
+                request.route_url("list"),
+                headers=auth_head
+            )
     return {}
 
 
@@ -84,6 +85,12 @@ def logout(request):
     """Logout view."""
     auth_head = forget(request)
     return HTTPFound(request.route_url('list'), headers=auth_head)
+
+# @forbidden_view_config(route_name="forbidden", renderer="../templates/forbidden.jinja2")
+# def not_allowed_view(request):
+#     return {}
+
+# @notfound_view_config()
 
 
 db_err_msg = """\
