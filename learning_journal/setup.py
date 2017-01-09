@@ -21,12 +21,8 @@ requires = [
     'ipython',
     'pyramid_ipython',
     'psycopg2',
-    'genshi',
-    'lxml',
-    'datrie',
-    'chardet',
-    #'ntlm'
 ]
+
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
