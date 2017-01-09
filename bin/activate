@@ -76,7 +76,8 @@ if [ -n "$BASH" -o -n "$ZSH_VERSION" ] ; then
 fi
 
 
-export AUTH_USERNAME='serashioda'
-export AUTH_PASSWORD='s00persekr3t'
+export AUTH_USERNAME='seras37'
+export AUTH_PASSWORD='$6$rounds=656000$ZJIL2h2Xr13dgnN.$aleWH4Et9XNxipe/jpHGemIp9LgDkvC5u0yxmzfw9JphJIho.IqjT0Uyx.awa2xTjOXl1OwT1FAUoMPxnE5Ck0'
 export AUTH_SECRET='snakesforall'
 
+printenv

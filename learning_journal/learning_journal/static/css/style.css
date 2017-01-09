@@ -270,9 +270,9 @@ ul.navig li a.active{
     background: rgba(255, 255, 255, 0.76);
 }
 .banner1-text {
-    position: absolute;
+    position: relative;
     top: 20%;
-    left: 20%;
+    left: 25%;
     width: 20%;
     padding: 0.5em 0px;
     text-align: center;

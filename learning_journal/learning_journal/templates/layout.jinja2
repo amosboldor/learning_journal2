@@ -79,9 +79,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <!--body-starts-->
     <body>
+        <nav>
+            <ul class="navig">
+                <li><a href="/"  class="active">Home</a></li>
+                <li><a href="{{ request.route_url('list') }}">Entries</a></li>
+                {% if request.authenticated_userid %}
+                    <li><a href="{{ request.route_url('create') }}">New Entry</a></li>
+                    <li><a href="{{ request.route_url('logout') }}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{{ request.route_url('login') }}">Log In</a></li>
+                {% endif %}
 
-        {% block body %}{% endblock %}
-
+            </ul>
+        </nav>
+        {% block body %}
+        {% endblock %}
     </body>
     <!--body-end-->
 

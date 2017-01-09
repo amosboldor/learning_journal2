@@ -1,4 +1,4 @@
-"""."""
+"""Main views for Learning Journal Blog app."""
 
 
 # from pyramid.response import Response
@@ -8,20 +8,17 @@ from pyramid.httpexceptions import HTTPFound
 import datetime
 from learning_journal.security import check_credentials
 from pyramid.security import remember, forget
-# from sqlalchemy.exc import DBAPIError
 
 
 @view_config(route_name='list', renderer='../templates/list.jinja2')
 def list_view(request):
     """A listing of expenses for the home page."""
-    import pdb; pdb.set_trace()
-    # if request.POST and request.POST['category']:
-    #     return HTTPFound(request.route_url('category', cat=request.POST['category']))
     query = request.dbsession.query(Entries)
     entries = query.order_by(Entries.create_date.desc()).all()
+    # print ("LISTING ENTRIES " + entries)
+    # import pdb; pdb.set_trace()
     return {
-        'entries:': entries
-        # 'categories': categories
+        'entries': entries
     }
 
 
@@ -42,7 +39,6 @@ def create_view(request):
     """View for the create page."""
     if request.POST:
         entry = Entries(
-            id=request.POST['id'],
             title=request.POST['title'],
             title1=request.POST['title1'],
             body=request.POST['body'],
@@ -63,20 +59,17 @@ def edit_view(request):
     entry_id = int(request.matchdict['id'])
     entry = request.dbsession.query(Entries).get(entry_id)
     if request.POST:
-        entry.id = request.POST['id']
         entry.title = request.POST['title']
         entry.title1 = request.POST['title1']
-        entry.body = request.POST['body']
         # entry.create_date = request.POST['create_date']
+        entry.body = request.POST['body']
         request.dbsession.flush()
         return HTTPFound(request.route_url('list'))
 
     form_fill = {
-        'id': entry.id,
         'title': entry.title,
         'title1': entry.title1,
         'body': entry.body
-        # 'create_date': entry.create_date
     }
     return {'data': form_fill}
 
@@ -85,14 +78,18 @@ def edit_view(request):
 def login_view(request):
     """Login view."""
     if request.POST:
+        print("I got the post, yay")
         username = request.POST["username"]
         password = request.POST["password"]
         if check_credentials(username, password):
+            print("Password correct!")
             auth_head = remember(request, username)
             return HTTPFound(
                 request.route_url("list"),
                 headers=auth_head
             )
+        else:
+            print("You look shady, password isn't correct")
     return {}
 
 
