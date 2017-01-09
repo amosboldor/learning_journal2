@@ -15,14 +15,22 @@ dist/
 downloads/
 eggs/
 .eggs/
+bin/
 lib/
 lib64/
 parts/
 sdist/
 var/
-*.egg-info/
 .installed.cfg
 *.egg
+*.egg-info/
+*.egg
+*.sqlite
+.DS_Store
+pip-selfcheck.json
+pytest.ini
+pyvenv.cfg
+share/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

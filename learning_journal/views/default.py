@@ -3,9 +3,10 @@
 
 # from pyramid.response import Response
 from pyramid.view import view_config
-from learning_journal.models import Entries
 from pyramid.httpexceptions import HTTPFound
 import datetime
+from sqlalchemy.exc import DBAPIError
+from learning_journal.models import Entries
 from learning_journal.security import check_credentials
 from pyramid.security import remember, forget
 
@@ -78,11 +79,9 @@ def edit_view(request):
 def login_view(request):
     """Login view."""
     if request.POST:
-        print("I got the post, yay")
         username = request.POST["username"]
         password = request.POST["password"]
         if check_credentials(username, password):
-            print("Password correct!")
             auth_head = remember(request, username)
             return HTTPFound(
                 request.route_url("list"),
