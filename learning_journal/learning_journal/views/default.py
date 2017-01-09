@@ -14,7 +14,7 @@ from pyramid.security import remember, forget
 @view_config(route_name='list', renderer='../templates/list.jinja2')
 def list_view(request):
     """A listing of expenses for the home page."""
-    # # import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     # if request.POST and request.POST['category']:
     #     return HTTPFound(request.route_url('category', cat=request.POST['category']))
     query = request.dbsession.query(Entries)
@@ -42,7 +42,6 @@ def create_view(request):
     """View for the create page."""
     if request.POST:
         entry = Entries(
-            # entry=request.POST
             id=request.POST['id'],
             title=request.POST['title'],
             title1=request.POST['title1'],
