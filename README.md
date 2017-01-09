@@ -7,7 +7,7 @@
 Getting Started
 ---------------
 
-- cd <learning_journal>
+- cd learning_journal
 
 - $VENV/bin/pip install -e .
 
