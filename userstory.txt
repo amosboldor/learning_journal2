@@ -1,0 +1,16 @@
+"""user story - AJAX."""
+
+1) As an author, I want to be able to submit new entries from the home page, 
+so I don’t have to wait for a page reload or an HTTP redirect to see the new
+ entry in my list of entries. I should only see this form if I’m authenticated.
+2) As an author I want to be able to submit AJAX requests for creating new 
+entries or editing existing entries. I shouldn’t need to be on the webpage to 
+interact with my website. All I want is access to the Javascript code; it 
+doesn’t have to be hooked into my site (except for the above user story).
+3) As an author, I want my existing editing to stay functional so that I can 
+work from a browser without javascript.
+4) As an author I want to be able to tweet the title of a post and a link to that 
+post by pressing a button so that I can share what I’ve learned with my followers.
+5) Create a Milestone in GitHub to represent these improvements. Break these 
+improvements down into tasks, create an issue for each task and assign the tasks 
+to the milestone.
