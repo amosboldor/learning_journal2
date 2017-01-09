@@ -30,9 +30,9 @@ def check_credentials(username, password):
     return False
 
 
-# def secure_view(request):
-#     """."""
-#     check_csrf_token(request)
+def secure_view(request):
+    """."""
+    check_csrf_token(request)
 
 
 def includeme(config):
@@ -47,7 +47,7 @@ def includeme(config):
     config.set_authorization_policy(authz_policy)
     config.set_root_factory(NewRoot)
     # Session stuff for CSRF Protection
-    # session_secret = os.environ.get("SESSION_SECRET", "itsaseekrit")
-    # session_factory = SignedCookieSessionFactory(session_secret)
-    # config.set_session_factory(session_factory)
-    # config.set_default_csrf_options(require_csrf=True)
+    session_secret = os.environ.get("SESSION_SECRET", "itsaseekrit")
+    session_factory = SignedCookieSessionFactory(session_secret)
+    config.set_session_factory(session_factory)
+    config.set_default_csrf_options(require_csrf=True)

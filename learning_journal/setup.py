@@ -20,7 +20,7 @@ requires = [
     'passlib',
     'ipython',
     'pyramid_ipython',
-    'psycopg2',
+    'psycopg2'
 ]
 
 
@@ -28,7 +28,7 @@ tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',  # includes virtualenv
     'pytest-cov',
-    'tox',
+    'tox'
 ]
 
 setup(name='learning_journal',
