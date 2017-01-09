@@ -1,0 +1,10 @@
+#!/Users/Sera/Dropbox/codefellows/401/learning_journal/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'chardet','console_scripts','chardetect'
+__requires__ = 'chardet'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('chardet', 'console_scripts', 'chardetect')()
+    )
