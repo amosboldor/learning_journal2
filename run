@@ -1,4 +1,5 @@
 #!/bin/bash
+cd learning_journal
 set -e
 python setup.py develop
 python runapp.py
