@@ -83,3 +83,4 @@ export AUTH_PASSWORD='$6$rounds=656000$ZJIL2h2Xr13dgnN.$aleWH4Et9XNxipe/jpHGemIp
 export AUTH_SECRET='snakesforall'
 
 printenv
+
